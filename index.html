@@ -9,8 +9,8 @@
   <script src="js/controllers.js"></script>
 </head>
 
-<body ng-controller="echoController">
-    <p class="splash">{{showText}}</p>
-    <p class="start-button" ng-hide=isPlaying ng-click="startTimeout()">begin</p>
+<body ng-style="ipStyle" ng-controller="echoController">
+    <p class="splash" ng-click="startTimeout()">{{showText}}</p>
+    <p class="details" ng-show="isPlaying ">{{showDetails}}</p>
 </body>
 </html>

@@ -1,28 +1,8 @@
 body {
+    position: relative;
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-    background: linear-gradient(180deg, #662446, #336624, #f50000, #69e6f3);
-    background-size: 800% 800%;
-
-    -webkit-animation: AnimationName 45 ease infinite;
-    -moz-animation: AnimationName 45 ease infinite;
-    animation: AnimationName 45 ease infinite;
-
-    @-webkit-keyframes AnimationName {
-        0%{background-position:51% 0%}
-        50%{background-position:50% 100%}
-        100%{background-position:51% 0%}
-    }
-    @-moz-keyframes AnimationName {
-        0%{background-position:51% 0%}
-        50%{background-position:50% 100%}
-        100%{background-position:51% 0%}
-    }
-    @keyframes AnimationName { 
-        0%{background-position:51% 0%}
-        50%{background-position:50% 100%}
-        100%{background-position:51% 0%}
-    }
 }
+
 
 
 .splash {
@@ -30,7 +10,7 @@ body {
     font-size: 600%;
 }
 
-.start-button {
+.details {
     text-align: center;
-    font-size: 400%;
+    font-size: 600%;
 }
