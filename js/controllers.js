@@ -18,9 +18,9 @@ coreEchoesApp.controller('echoController', function ($scope) {
     synth3.setOscType('sine');
 
     // More synth quality here!
-    synth1.output.gain = 0.2;
-    synth2.output.gain = 0.2;
-    synth3.output.gain = 0.2;
+    synth1.output.gain.value = 0.2;
+    synth2.output.gain.value = 0.2;
+    synth3.output.gain.value = 0.2;
 
     synth1.toMaster();
     synth2.toMaster();
@@ -76,14 +76,17 @@ coreEchoesApp.controller('echoController', function ($scope) {
 
     var getPitches = function(ipArray) {
         var pitches = [];
-        var convertToLetters = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
+        var convertToLetters = [
+        'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
+        'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5'
+        ];
 
         for (var i = 0; i < ipArray.length; i++) {
             var pitch = 0;
             for (var j = 0; j < ipArray[i].length; j++) {
                 pitch = pitch + parseInt(ipArray[i][j]);
             }
-            pitches[i] = convertToLetters[pitch % 12];
+            pitches[i] = convertToLetters[pitch % 24];
         }
         return pitches;
     }
@@ -144,7 +147,7 @@ coreEchoesApp.controller('echoController', function ($scope) {
 
         var timeoutProb = getProbabilties(currentIP[3]);
         var timeouts = getTimeouts(currentIP.slice(0, 3));
-        var nextTimeout = choose(timeoutProb, timeouts); 
+        var nextTimeout = choose(timeoutProb, timeouts) / 2; 
 
         console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
 
