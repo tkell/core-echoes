@@ -1,6 +1,6 @@
 var coreEchoesApp = angular.module('coreEchoesApp', []);
 
-coreEchoesApp.controller('echoController', function ($scope) {
+coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     $scope.echoes = [
         {'ip': '192.168.1.10'},
         {'ip': '121.17.19.10'},
@@ -8,6 +8,8 @@ coreEchoesApp.controller('echoController', function ($scope) {
         {'ip': '21.34.149.231'},
         {'ip': '64.10.222.56'},
     ];
+
+    $scope.showText = "co.re.ech.oes";
 
     $scope.startTimeout = function() {
         console.log("click!");
@@ -32,8 +34,9 @@ coreEchoesApp.controller('echoController', function ($scope) {
     synth3.toMaster();
 
     // Initial data
-    var startFlag = true
     var tempIndex = 0;
+    var startFlag = true;
+    $scope.isPlaying = false;
     var noteData = [
             {'note': 'C4', 'duration': 0.5, 'repetition':  1},
             {'note': 'C4', 'duration': 0.5, 'repetition':  1},
@@ -134,7 +137,8 @@ coreEchoesApp.controller('echoController', function ($scope) {
 
     var doNextTimeout = function() {
         var currentIP = $scope.echoes[tempIndex].ip;
-        synthIndex = tempIndex % 3;
+        $scope.showText = currentIP;
+        var synthIndex = tempIndex % 3;
         currentIP = currentIP.split('.');
         currentIP = padIPs(currentIP);
 
@@ -159,6 +163,7 @@ coreEchoesApp.controller('echoController', function ($scope) {
         if (startFlag == true) {
             if (synthIndex == 0) {  
                 console.log("Starting");
+                $scope.isPlaying = true;
                 synth1.output.gain.value = 0.6;
                 Tone.Transport.setInterval(function(time) {
                     synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
@@ -187,9 +192,9 @@ coreEchoesApp.controller('echoController', function ($scope) {
         
         tempIndex = tempIndex + 1
         if (tempIndex < $scope.echoes.length) {
-            setTimeout(doNextTimeout, nextTimeout * 1000);
+            $timeout(doNextTimeout, nextTimeout * 1000);
         } else {
-            setTimeout(function() {Tone.Transport.stop()}, nextTimeout * 1000);
+            $timeout(function() {Tone.Transport.stop()}, nextTimeout * 1000);
             console.log("stopping soon!");
         }
     }
