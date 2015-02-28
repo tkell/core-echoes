@@ -1,4 +1,5 @@
 body {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     background: linear-gradient(180deg, #662446, #336624, #f50000, #69e6f3);
     background-size: 800% 800%;
 
@@ -27,5 +28,9 @@ body {
 .splash {
     text-align: center;
     font-size: 600%;
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.start-button {
+    text-align: center;
+    font-size: 400%;
 }

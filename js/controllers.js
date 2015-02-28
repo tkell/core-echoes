@@ -9,6 +9,11 @@ coreEchoesApp.controller('echoController', function ($scope) {
         {'ip': '64.10.222.56'},
     ];
 
+    $scope.startTimeout = function() {
+        console.log("click!");
+        doNextTimeout();
+    }
+
     var synth1 = new Tone.MonoSynth();
     var synth2 = new Tone.MonoSynth();
     var synth3 = new Tone.MonoSynth();
@@ -18,9 +23,9 @@ coreEchoesApp.controller('echoController', function ($scope) {
     synth3.setOscType('sine');
 
     // More synth quality here!
-    synth1.output.gain.value = 0.2;
-    synth2.output.gain.value = 0.2;
-    synth3.output.gain.value = 0.2;
+    synth1.output.gain.value = 0.1;
+    synth2.output.gain.value = 0.1;
+    synth3.output.gain.value = 0.1;
 
     synth1.toMaster();
     synth2.toMaster();
@@ -153,7 +158,8 @@ coreEchoesApp.controller('echoController', function ($scope) {
 
         if (startFlag == true) {
             if (synthIndex == 0) {  
-                console.log("Starting")
+                console.log("Starting");
+                synth1.output.gain.value = 0.6;
                 Tone.Transport.setInterval(function(time) {
                     synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
                 }, noteData[0].repetition);
@@ -161,6 +167,8 @@ coreEchoesApp.controller('echoController', function ($scope) {
             }
 
             if (synthIndex == 1) {  
+                synth1.output.gain.value = 0.3;
+                synth2.output.gain.value = 0.3;
                 Tone.Transport.setInterval(function(time) {
                     synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
                 }, noteData[1].repetition);
@@ -168,6 +176,9 @@ coreEchoesApp.controller('echoController', function ($scope) {
 
             if (synthIndex == 2) {  
                 startFlag = false;
+                synth1.output.gain.value = 0.2;
+                synth2.output.gain.value = 0.2;
+                synth3.output.gain.value = 0.2;
                 Tone.Transport.setInterval(function(time) {
                     synth3.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
                 }, noteData[2].repetition);
@@ -182,6 +193,4 @@ coreEchoesApp.controller('echoController', function ($scope) {
             console.log("stopping soon!");
         }
     }
-
-    doNextTimeout();
  });

@@ -11,6 +11,7 @@
 
 <body ng-controller="echoController">
     <p class="splash">co.re.ech.oes</p>
+    <p class="start-button" ng-click="startTimeout()">begin</p>
         <ul>
             <li ng-repeat="echo in echoes">
                 <span>{{echo.ip}}</span>
