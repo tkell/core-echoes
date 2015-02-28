@@ -18,10 +18,13 @@ coreEchoesApp.controller('echoController', function ($scope) {
     synth3.setOscType('sine');
 
     // More synth quality here!
+    synth1.output.gain = 0.2;
+    synth2.output.gain = 0.2;
+    synth3.output.gain = 0.2;
 
     synth1.toMaster();
-    synth2.toMaster();
-    synth3.toMaster();
+    // synth2.toMaster();
+    // synth3.toMaster();
 
     // Initial data
     var startFlag = true
@@ -137,7 +140,7 @@ coreEchoesApp.controller('echoController', function ($scope) {
 
         var durationProb = getProbabilties(currentIP[2]);
         var durations = getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
-        noteData[synthIndex].duration = noteData[0].repetition / choose(durationProb, durations); 
+        noteData[synthIndex].duration = noteData[0].repetition / 2; 
 
         var timeoutProb = getProbabilties(currentIP[3]);
         var timeouts = getTimeouts(currentIP.slice(0, 3));
@@ -146,24 +149,29 @@ coreEchoesApp.controller('echoController', function ($scope) {
         console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
 
         if (startFlag == true) {
-            console.log("Starting")
-            startFlag = false;
-            Tone.Transport.setInterval(function(time) {
-                synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
-            }, noteData[0].repetition);
+            if (synthIndex == 0) {  
+                console.log("Starting")
+                Tone.Transport.setInterval(function(time) {
+                    synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
+                }, noteData[0].repetition);
+                Tone.Transport.start();
+            }
 
-            Tone.Transport.setInterval(function(time) {
-                synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
-            }, noteData[1].repetition);
+            if (synthIndex == 1) {  
+                Tone.Transport.setInterval(function(time) {
+                    synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
+                }, noteData[1].repetition);
+            }
 
-            Tone.Transport.setInterval(function(time) {
-                synth1.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
-            }, noteData[2].repetition);
-            Tone.Transport.start();
+            if (synthIndex == 1) {  
+                startFlag = false;
+                Tone.Transport.setInterval(function(time) {
+                    synth1.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
+                }, noteData[2].repetition);
+            }
         }
         
         tempIndex = tempIndex + 1
-        // schedule next timeout
         if (tempIndex < $scope.echoes.length) {
             setTimeout(doNextTimeout, nextTimeout * 1000);
         } else {
@@ -172,5 +180,5 @@ coreEchoesApp.controller('echoController', function ($scope) {
         }
     }
 
-    doNextTimeout(); // start the whole thing off!
+    doNextTimeout();
  });
