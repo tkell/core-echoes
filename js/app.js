@@ -9,23 +9,29 @@ synth1.setOscType('triangle');
 synth2.setOscType('square');
 synth3.setOscType('sine');
 
-// More synth quality here
+// More synth quality here!
 
 synth1.toMaster();
 synth2.toMaster();
 synth3.toMaster();
 
+
+noteData = [{'note': 'C4', 'duration': 0.5, 'repetition':  beatTime / 4},
+            {'note': 'G4', 'duration': 0.5, 'repetition':  beatTime},
+            {'note': 'C5', 'duration': 0.5, 'repetition':  beatTime / 6}
+        ]
+
 Tone.Transport.setInterval(function(time) {
-    synth1.triggerAttackRelease("C4", 0.5, time);
-}, 1);
+    synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
+}, noteData[0].repetition);
 
-Tone.Transport.setInterval(function(time){
-    synth2.triggerAttackRelease("G4", 1.75, time);
-}, 3);
+Tone.Transport.setInterval(function(time) {
+    synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
+}, noteData[1].repetition);
 
-Tone.Transport.setInterval(function(time){
-    synth3.triggerAttackRelease("C5", 0.75, time);
-}, 4);
+Tone.Transport.setInterval(function(time) {
+    synth1.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
+}, noteData[2].repetition);
 
 //start the transport
 Tone.Transport.start();
