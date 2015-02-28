@@ -5,14 +5,13 @@ coreEchoesApp.controller('echoController', function ($scope) {
         {'ip': '192.168.1.10'},
         {'ip': '121.17.19.10'},
         {'ip': '21.7.149.107'},
+        {'ip': '21.34.149.231'},
+        {'ip': '64.10.222.56'},
     ];
 
     var synth1 = new Tone.MonoSynth();
     var synth2 = new Tone.MonoSynth();
     var synth3 = new Tone.MonoSynth();
-
-    var tempo = 128;
-    var beatTime = 60 / 128;
 
     synth1.setOscType('sine');
     synth2.setOscType('sine');
@@ -24,23 +23,25 @@ coreEchoesApp.controller('echoController', function ($scope) {
     synth2.toMaster();
     synth3.toMaster();
 
-    // Initial notes
-
-    noteData = [{'note': 'C4', 'duration': 0.2, 'repetition':  beatTime},
-            {'note': 'G4', 'duration': 0.5, 'repetition':  beatTime},
-            {'note': 'C5', 'duration': 0.5, 'repetition':  beatTime / 6}
+    // Initial data
+    var startFlag = true
+    var tempIndex = 0;
+    var noteData = [
+            {'note': 'C4', 'duration': 0.5, 'repetition':  1},
+            {'note': 'C4', 'duration': 0.5, 'repetition':  1},
+            {'note': 'C4', 'duration': 0.5, 'repetition':  1}
         ];
 
-    var currentIP = $scope.echoes[0].ip;
-    currentIP = currentIP.split('.');
-    // pad ips
-    for (var i = 0; i < currentIP.length; i++) {
-        if (currentIP[i].length == 2) {
-            currentIP[i] = '0' + currentIP[i];
-        } 
-        else if (currentIP[i].length == 1) {
-            currentIP[i] = '00' + currentIP[i];
+    var padIPs = function (ipArray) {
+        for (var i = 0; i < ipArray.length; i++) {
+            if (ipArray[i].length == 2) {
+                ipArray[i] = '0' + ipArray[i];
+            } 
+            else if (ipArray[i].length == 1) {
+                ipArray[i] = '00' + ipArray[i];
+            }
         }
+        return ipArray;
     }
 
     var getProbabilties = function(ipString) {
@@ -108,32 +109,68 @@ coreEchoesApp.controller('echoController', function ($scope) {
         return modifiers;   
     }
 
-    var pitchProb = getProbabilties(currentIP[0]);
-    var pitches = getPitches(currentIP.slice(1, 4));
-    noteData[0].note = choose(pitchProb, pitches);
+    var getTimeouts = function(ipArray) {
+        var times = [];
+        for (var i = 0; i < ipArray.length; i++) {
+            var t = 0;
+            for (var j = 0; j < ipArray[i].length; j++) {
+                t = t + parseInt(ipArray[i][j]);
+            }
+            times[i] = t;
+        }
+        return times;   
+    }
 
-    var rhythmProb = getProbabilties(currentIP[1]);
-    var rhythms = getRhythms([currentIP[0]].concat(currentIP.slice(2, 4)))
-    noteData[0].repetition = choose(rhythmProb, rhythms); 
+    var doNextTimeout = function() {
+        var currentIP = $scope.echoes[tempIndex].ip;
+        synthIndex = tempIndex % 3;
+        currentIP = currentIP.split('.');
+        currentIP = padIPs(currentIP);
 
-    var durationProb = getProbabilties(currentIP[2]);
-    var durations = getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
-    noteData[0].duration = noteData[0].repetition / choose(durationProb, durations); 
+        var pitchProb = getProbabilties(currentIP[0]);
+        var pitches = getPitches(currentIP.slice(1, 4));
+        noteData[synthIndex].note = choose(pitchProb, pitches);
 
-    Tone.Transport.setInterval(function(time) {
-        synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
-    }, noteData[0].repetition);
+        var rhythmProb = getProbabilties(currentIP[1]);
+        var rhythms = getRhythms([currentIP[0]].concat(currentIP.slice(2, 4)))
+        noteData[synthIndex].repetition = choose(rhythmProb, rhythms); 
 
-    // Tone.Transport.setInterval(function(time) {
-    //     synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
-    // }, noteData[1].repetition);
+        var durationProb = getProbabilties(currentIP[2]);
+        var durations = getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
+        noteData[synthIndex].duration = noteData[0].repetition / choose(durationProb, durations); 
 
-    // Tone.Transport.setInterval(function(time) {
-    //     synth1.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
-    // }, noteData[2].repetition);
+        var timeoutProb = getProbabilties(currentIP[3]);
+        var timeouts = getTimeouts(currentIP.slice(0, 3));
+        var nextTimeout = choose(timeoutProb, timeouts); 
 
-    //start the transport
-    Tone.Transport.start();
+        console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
 
+        if (startFlag == true) {
+            console.log("Starting")
+            startFlag = false;
+            Tone.Transport.setInterval(function(time) {
+                synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
+            }, noteData[0].repetition);
 
-});
+            Tone.Transport.setInterval(function(time) {
+                synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
+            }, noteData[1].repetition);
+
+            Tone.Transport.setInterval(function(time) {
+                synth1.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
+            }, noteData[2].repetition);
+            Tone.Transport.start();
+        }
+        
+        tempIndex = tempIndex + 1
+        // schedule next timeout
+        if (tempIndex < $scope.echoes.length) {
+            setTimeout(doNextTimeout, nextTimeout * 1000);
+        } else {
+            setTimeout(function() {Tone.Transport.stop()}, nextTimeout * 1000);
+            console.log("stopping soon!");
+        }
+    }
+
+    doNextTimeout(); // start the whole thing off!
+ });
