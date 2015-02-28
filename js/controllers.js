@@ -58,6 +58,18 @@ coreEchoesApp.controller('echoController', function ($scope) {
         return probabilities;
     }
 
+    var choose = function(probabilities, array) {
+        var res = Math.random();
+        if (res < probabilities[0]) {
+            index = array[0]
+        } else if (res >= probabilities[0] && res < probabilities[1]) {
+            index = array[1]
+        } else {
+            index = array[2]
+        }
+        return index;
+    }
+
     var getPitches = function(ipArray) {
         var pitches = [];
         var convertToLetters = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
@@ -72,18 +84,6 @@ coreEchoesApp.controller('echoController', function ($scope) {
         return pitches;
     }
 
-    var choose = function(probabilities, array) {
-        var res = Math.random();
-        if (res < probabilities[0]) {
-            index = array[0]
-        } else if (res >= probabilities[0] && res < probabilities[1]) {
-            index = array[1]
-        } else {
-            index = array[2]
-        }
-        return index;
-    }
-
     var getRhythms = function(ipArray) {
         var intervals = [];
         for (var i = 0; i < ipArray.length; i++) {
@@ -96,6 +96,18 @@ coreEchoesApp.controller('echoController', function ($scope) {
         return intervals;   
     }
 
+    var getDurations = function(ipArray) {
+        var modifiers = [];
+        for (var i = 0; i < ipArray.length; i++) {
+            var mod = 0;
+            for (var j = 0; j < ipArray[i].length; j++) {
+                mod = mod + parseInt(ipArray[i][j]);
+            }
+            modifiers[i] = mod / 2;
+        }
+        return modifiers;   
+    }
+
     var pitchProb = getProbabilties(currentIP[0]);
     var pitches = getPitches(currentIP.slice(1, 4));
     noteData[0].note = choose(pitchProb, pitches);
@@ -104,10 +116,14 @@ coreEchoesApp.controller('echoController', function ($scope) {
     var rhythms = getRhythms([currentIP[0]].concat(currentIP.slice(2, 4)))
     noteData[0].repetition = choose(rhythmProb, rhythms); 
 
+    var durationProb = getProbabilties(currentIP[2]);
+    var durations = getDurations(currentIP.slice(0, 2).concat[currentIP[3]]);
+    noteData[0].duration = noteData[0].repetition / choose(durationProb, durations); 
 
     console.log(currentIP);
     console.log(pitchProb, pitches, noteData[0].note);
     console.log(rhythmProb, rhythms, noteData[0].repetition);
+    console.log(durationProb, durations, noteData[0].duration);
 
 
     Tone.Transport.setInterval(function(time) {
