@@ -163,10 +163,10 @@ coreEchoesApp.controller('echoController', function ($scope) {
                 }, noteData[1].repetition);
             }
 
-            if (synthIndex == 1) {  
+            if (synthIndex == 2) {  
                 startFlag = false;
                 Tone.Transport.setInterval(function(time) {
-                    synth1.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
+                    synth3.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
                 }, noteData[2].repetition);
             }
         }
