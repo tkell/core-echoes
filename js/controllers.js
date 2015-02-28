@@ -117,14 +117,8 @@ coreEchoesApp.controller('echoController', function ($scope) {
     noteData[0].repetition = choose(rhythmProb, rhythms); 
 
     var durationProb = getProbabilties(currentIP[2]);
-    var durations = getDurations(currentIP.slice(0, 2).concat[currentIP[3]]);
+    var durations = getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
     noteData[0].duration = noteData[0].repetition / choose(durationProb, durations); 
-
-    console.log(currentIP);
-    console.log(pitchProb, pitches, noteData[0].note);
-    console.log(rhythmProb, rhythms, noteData[0].repetition);
-    console.log(durationProb, durations, noteData[0].duration);
-
 
     Tone.Transport.setInterval(function(time) {
         synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
