@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <title>co.re.ech.oes</title>
+  <link rel="stylesheet" href="css/app.css">
   <script src=https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js></script>
   <script src="js/controllers.js"></script>
 </head>
+
 <body ng-controller="echoController">
-CORE ECHOES
-<ul>
-    <li ng-repeat="echo in echoes">
-        <span>{{echo.ip}}</span>
-    </li>
-</ul>
-
-
+    <p class="splash">co.re.ech.oes</p>
+        <ul>
+            <li ng-repeat="echo in echoes">
+                <span>{{echo.ip}}</span>
+            </li>
+        </ul>
 </body>
 </html>
