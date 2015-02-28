@@ -140,7 +140,7 @@ coreEchoesApp.controller('echoController', function ($scope) {
 
         var durationProb = getProbabilties(currentIP[2]);
         var durations = getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
-        noteData[synthIndex].duration = noteData[0].repetition / 2; 
+        noteData[synthIndex].duration = noteData[synthIndex].repetition / 2; 
 
         var timeoutProb = getProbabilties(currentIP[3]);
         var timeouts = getTimeouts(currentIP.slice(0, 3));
