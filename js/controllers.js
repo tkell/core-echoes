@@ -37,14 +37,19 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     synth2.setOscType('triangle');
     synth3.setOscType('square');
 
+    var chorus1 = new Tone.Chorus();
+    var delay2 = new Tone.PingPongDelay();
+    delay2.setFeedback(0.6);
+    var chorus3 = new Tone.Chorus(depth=0.2, rate=0.66);
+
     // More synth quality here!
     synth1.output.gain.value = 0.1;
     synth2.output.gain.value = 0.1;
     synth3.output.gain.value = 0.1;
 
-    synth1.toMaster();
-    synth2.toMaster();
-    synth3.toMaster();
+    synth1.connect(chorus1); chorus1.toMaster();
+    synth2.connect(delay2); delay2.toMaster();
+    synth3.connect(chorus3); chorus3.toMaster();
 
     // Initial data
     var tempIndex = 0;
@@ -202,7 +207,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
             if (synthIndex == 0) {  
                 console.log("Starting");
                 $scope.isPlaying = true;
-                synth1.output.gain.value = 0.6;
+                synth1.output.gain.value = 0.3;
                 Tone.Transport.setInterval(function(time) {
                     synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
                 }, noteData[0].repetition);
@@ -210,7 +215,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
             }
 
             if (synthIndex == 1) {  
-                synth1.output.gain.value = 0.3;
+                synth1.output.gain.value = 0.2;
                 synth2.output.gain.value = 0.2;
                 Tone.Transport.setInterval(function(time) {
                     synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
@@ -219,8 +224,8 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
 
             if (synthIndex == 2) {  
                 startFlag = false;
-                synth1.output.gain.value = 0.4;
-                synth2.output.gain.value = 0.2;
+                synth1.output.gain.value = 0.1;
+                synth2.output.gain.value = 0.1;
                 synth3.output.gain.value = 0.1;
                 Tone.Transport.setInterval(function(time) {
                     synth3.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
