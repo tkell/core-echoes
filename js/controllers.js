@@ -23,8 +23,8 @@ coreEchoesApp.controller('echoController', function ($scope) {
     synth3.output.gain = 0.2;
 
     synth1.toMaster();
-    // synth2.toMaster();
-    // synth3.toMaster();
+    synth2.toMaster();
+    synth3.toMaster();
 
     // Initial data
     var startFlag = true
