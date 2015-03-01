@@ -34,8 +34,8 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     var synth3 = new Tone.MonoSynth();
 
     synth1.setOscType('sine');
-    synth2.setOscType('triangle');
-    synth3.setOscType('square');
+    synth2.setOscType('sine');
+    synth3.setOscType('sine');
 
     var chorus1 = new Tone.Chorus();
     var delay2 = new Tone.PingPongDelay();
@@ -216,8 +216,8 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
             }
 
             if (synthIndex == 1) {  
-                synth1.output.gain.value = 0.2;
-                synth2.output.gain.value = 0.2;
+                synth1.output.gain.value = 0.15;
+                synth2.output.gain.value = 0.15;
                 Tone.Transport.setInterval(function(time) {
                     synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
                 }, noteData[1].repetition);
@@ -227,7 +227,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
                 startFlag = false;
                 synth1.output.gain.value = 0.1;
                 synth2.output.gain.value = 0.1;
-                synth3.output.gain.value = 0.075;
+                synth3.output.gain.value = 0.1;
                 Tone.Transport.setInterval(function(time) {
                     synth3.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
                 }, noteData[2].repetition);
