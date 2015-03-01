@@ -40,7 +40,8 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     var chorus1 = new Tone.Chorus();
     var delay2 = new Tone.PingPongDelay();
     delay2.setFeedback(0.6);
-    var chorus3 = new Tone.Chorus(depth=0.2, rate=0.66);
+    var chorus3 = new Tone.Chorus(depth=0.1, rate=0.66);
+    chorus3.output.gain.value = 0.5
 
     // More synth quality here!
     synth1.output.gain.value = 0.1;
@@ -191,7 +192,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
 
         var rhythmProb = getProbabilties(currentIP[1]);
         var rhythms = getRhythms([currentIP[0]].concat(currentIP.slice(2, 4)))
-        noteData[synthIndex].repetition = choose(rhythmProb, rhythms); 
+        noteData[synthIndex].repetition = choose(rhythmProb, rhythms) / 2; 
 
         var durationProb = getProbabilties(currentIP[2]);
         var durations = getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
@@ -226,7 +227,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
                 startFlag = false;
                 synth1.output.gain.value = 0.1;
                 synth2.output.gain.value = 0.1;
-                synth3.output.gain.value = 0.1;
+                synth3.output.gain.value = 0.075;
                 Tone.Transport.setInterval(function(time) {
                     synth3.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
                 }, noteData[2].repetition);
