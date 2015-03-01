@@ -22,7 +22,7 @@ var testRoute = [
 
 coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     $scope.echoes = testRoute;
-    $scope.showText = "co.re.ech.oes";
+    $scope.showText = "co.re.echo.es";
 
     $scope.startTimeout = function() {
         console.log("click!");
