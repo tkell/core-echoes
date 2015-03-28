@@ -49,6 +49,7 @@ function setUpSynths() {
     return [synth1, synth2, synth3];
 }
 
+
 coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     $scope.echoes = testRoute;
     $scope.showText = "co.re.echo.es";
@@ -62,6 +63,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
 		var synth2 = synths[1];
 		var synth3 = synths[2];
 
+
     // Initial data
     var tempIndex = 0;
     var startFlag = true;
@@ -71,45 +73,6 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
             {'note': 'C4', 'duration': 0.5, 'repetition':  1},
             {'note': 'C4', 'duration': 0.5, 'repetition':  1}
         ];
-
-    var padIPs = function (ipArray) {
-        for (var i = 0; i < ipArray.length; i++) {
-            if (ipArray[i].length == 2) {
-                ipArray[i] = '0' + ipArray[i];
-            } 
-            else if (ipArray[i].length == 1) {
-                ipArray[i] = '00' + ipArray[i];
-            }
-        }
-        return ipArray;
-    }
-
-    var getProbabilties = function(ipString) {
-        var probabilities = [];
-        var totalProb = 0;
-        for (var i = 0; i < ipString.length; i++) {
-            probabilities[i] = parseInt(ipString[i]);
-            totalProb = totalProb + probabilities[i];
-        }
-
-        for (var i = 0; i < probabilities.length; i++) {
-            probabilities[i] = probabilities[i] / totalProb;
-        }
-
-        return probabilities;
-    }
-
-    var choose = function(probabilities, array) {
-        var res = Math.random();
-        if (res < probabilities[0]) {
-            index = array[0]
-        } else if (res >= probabilities[0] && res < probabilities[1]) {
-            index = array[1]
-        } else {
-            index = array[2]
-        }
-        return index;
-    }
 
     var getPitches = function(ipArray) {
         var pitches = [];
@@ -189,28 +152,28 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
         $scope.showDetails = currentIP;
         var synthIndex = tempIndex % 3;
         currentIP = currentIP.split('.');
-        currentIP = padIPs(currentIP);
+        currentIP = ipUtils.pad(currentIP);
 
         console.log(getRGB(currentIP));
         $scope.ipStyle = {
             'background-color': getRGB(currentIP)
         };
 
-        var pitchProb = getProbabilties(currentIP[0]);
+        var pitchProb = ipUtils.getProb(currentIP[0]);
         var pitches = getPitches(currentIP.slice(1, 4));
-        noteData[synthIndex].note = choose(pitchProb, pitches);
+        noteData[synthIndex].note = ipUtils.choose(pitchProb, pitches);
 
-        var rhythmProb = getProbabilties(currentIP[1]);
+        var rhythmProb = ipUtils.getProb(currentIP[1]);
         var rhythms = getRhythms([currentIP[0]].concat(currentIP.slice(2, 4)))
-        noteData[synthIndex].repetition = choose(rhythmProb, rhythms) / 2; 
+        noteData[synthIndex].repetition = ipUtils.choose(rhythmProb, rhythms) / 2; 
 
-        var durationProb = getProbabilties(currentIP[2]);
+        var durationProb = ipUtils.getProb(currentIP[2]);
         var durations = getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
         noteData[synthIndex].duration = noteData[synthIndex].repetition / 2; 
 
-        var timeoutProb = getProbabilties(currentIP[3]);
+        var timeoutProb = ipUtils.getProb(currentIP[3]);
         var timeouts = getTimeouts(currentIP.slice(0, 3));
-        var nextTimeout = choose(timeoutProb, timeouts) / 2; 
+        var nextTimeout = ipUtils.choose(timeoutProb, timeouts) / 2; 
 
         console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
 
