@@ -57,13 +57,11 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     $scope.startTimeout = function() {
         doNextTimeout();
     }
-
 		
 		var synths = setUpSynths();
 		var synth1 = synths[0];
 		var synth2 = synths[1];
 		var synth3 = synths[2];
-
 
     // Initial data
     var tempIndex = 0;
@@ -75,26 +73,6 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
             {'note': 'C4', 'duration': 0.5, 'repetition':  1}
         ];
 
-
-
-    function componentToHex(c) {
-        var hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-    }
-
-    function rgbToHex(r, g, b) {
-        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    }
-
-    var getRGB = function(ipArray) {
-        ipString = ipArray[0] + ipArray[1] + ipArray[2] + ipArray[3];
-        ipString = ipString.replace('.', '');
-        var r = parseInt(ipString.slice(0, 4)) % 255;
-        var g = parseInt(ipString.slice(5, 8)) % 255;
-        var b = parseInt(ipString.slice(9, 12)) % 255;
-        return rgbToHex(r, g, b)
-    }
-
     var doNextTimeout = function() {
         var currentIP = $scope.echoes[tempIndex].ip;
         $scope.showText = $scope.echoes[tempIndex].text;
@@ -102,10 +80,6 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
         var synthIndex = tempIndex % 3;
         currentIP = currentIP.split('.');
         currentIP = ipUtils.pad(currentIP);
-
-        $scope.ipStyle = {
-            'background-color': getRGB(currentIP)
-        };
 
         var pitchProb = ipUtils.getProb(currentIP[0]);
         var pitches = mapper.getPitches(currentIP.slice(1, 4));
