@@ -139,7 +139,6 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     var getRGB = function(ipArray) {
         ipString = ipArray[0] + ipArray[1] + ipArray[2] + ipArray[3];
         ipString = ipString.replace('.', '');
-        console.log(ipString);
         var r = parseInt(ipString.slice(0, 4)) % 255;
         var g = parseInt(ipString.slice(5, 8)) % 255;
         var b = parseInt(ipString.slice(9, 12)) % 255;
@@ -154,7 +153,6 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
         currentIP = currentIP.split('.');
         currentIP = ipUtils.pad(currentIP);
 
-        console.log(getRGB(currentIP));
         $scope.ipStyle = {
             'background-color': getRGB(currentIP)
         };
@@ -175,11 +173,10 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
         var timeouts = getTimeouts(currentIP.slice(0, 3));
         var nextTimeout = ipUtils.choose(timeoutProb, timeouts) / 2; 
 
-        console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
+        // console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
 
         if (startFlag == true) {
             if (synthIndex == 0) {  
-                console.log("Starting");
                 $scope.isPlaying = true;
                 synth1.output.gain.value = 0.03;
                 Tone.Transport.setInterval(function(time) {
@@ -212,7 +209,6 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
             $timeout(doNextTimeout, nextTimeout * 1000);
         } else {
             $timeout(function() {Tone.Transport.stop()}, nextTimeout * 1000);
-            console.log("stopping soon!");
         }
     }
  });
