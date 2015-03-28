@@ -57,6 +57,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     $scope.startTimeout = function() {
         doNextTimeout();
     }
+
 		
 		var synths = setUpSynths();
 		var synth1 = synths[0];
@@ -74,58 +75,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
             {'note': 'C4', 'duration': 0.5, 'repetition':  1}
         ];
 
-    var getPitches = function(ipArray) {
-        var pitches = [];
-        var convertToLetters = [
-        'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
-        'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5'
-        ];
 
-        for (var i = 0; i < ipArray.length; i++) {
-            var pitch = 0;
-            for (var j = 0; j < ipArray[i].length; j++) {
-                pitch = pitch + parseInt(ipArray[i][j]);
-            }
-            pitches[i] = convertToLetters[pitch % 24];
-        }
-        return pitches;
-    }
-
-    var getRhythms = function(ipArray) {
-        var intervals = [];
-        for (var i = 0; i < ipArray.length; i++) {
-            var interval = 0;
-            for (var j = 0; j < ipArray[i].length; j++) {
-                interval = interval + parseInt(ipArray[i][j]);
-            }
-            intervals[i] = interval / 4;
-        }
-        return intervals;   
-    }
-
-    var getDurations = function(ipArray) {
-        var modifiers = [];
-        for (var i = 0; i < ipArray.length; i++) {
-            var mod = 0;
-            for (var j = 0; j < ipArray[i].length; j++) {
-                mod = mod + parseInt(ipArray[i][j]);
-            }
-            modifiers[i] = mod / 2;
-        }
-        return modifiers;   
-    }
-
-    var getTimeouts = function(ipArray) {
-        var times = [];
-        for (var i = 0; i < ipArray.length; i++) {
-            var t = 0;
-            for (var j = 0; j < ipArray[i].length; j++) {
-                t = t + parseInt(ipArray[i][j]);
-            }
-            times[i] = t;
-        }
-        return times;   
-    }
 
     function componentToHex(c) {
         var hex = c.toString(16);
@@ -158,19 +108,19 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
         };
 
         var pitchProb = ipUtils.getProb(currentIP[0]);
-        var pitches = getPitches(currentIP.slice(1, 4));
+        var pitches = mapper.getPitches(currentIP.slice(1, 4));
         noteData[synthIndex].note = ipUtils.choose(pitchProb, pitches);
 
         var rhythmProb = ipUtils.getProb(currentIP[1]);
-        var rhythms = getRhythms([currentIP[0]].concat(currentIP.slice(2, 4)))
+        var rhythms = mapper.getRhythms([currentIP[0]].concat(currentIP.slice(2, 4)))
         noteData[synthIndex].repetition = ipUtils.choose(rhythmProb, rhythms) / 2; 
 
         var durationProb = ipUtils.getProb(currentIP[2]);
-        var durations = getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
+        var durations = mapper.getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
         noteData[synthIndex].duration = noteData[synthIndex].repetition / 2; 
 
         var timeoutProb = ipUtils.getProb(currentIP[3]);
-        var timeouts = getTimeouts(currentIP.slice(0, 3));
+        var timeouts = mapper.getTimeouts(currentIP.slice(0, 3));
         var nextTimeout = ipUtils.choose(timeoutProb, timeouts) / 2; 
 
         // console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
