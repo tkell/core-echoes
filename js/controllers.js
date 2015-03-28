@@ -32,7 +32,7 @@ function setUpSynths() {
 
     var chorus1 = new Tone.Chorus();
     var delay2 = new Tone.PingPongDelay();
-		delay2.feedback.value = 0.6
+    delay2.feedback.value = 0.6
     var chorus3 = new Tone.Chorus(depth=0.1, rate=0.66);
     chorus3.output.gain.value = 0.5
 
