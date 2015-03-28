@@ -20,15 +20,8 @@ var testRoute = [
     {'ip': '69.163.188.139', 'text': 'ip-69-163-188-139.dreamhost.com 76.147 ms  76.100 ms ip-69-163-188-137.dreamhost.com (69.163.188.137)  76.041 ms'}
 ]
 
-coreEchoesApp.controller('echoController', function ($scope, $timeout) {
-    $scope.echoes = testRoute;
-    $scope.showText = "co.re.echo.es";
 
-    $scope.startTimeout = function() {
-        console.log("click!");
-        doNextTimeout();
-    }
-
+function setUpSynths() {
     var synth1 = new Tone.MonoSynth();
     var synth2 = new Tone.MonoSynth();
     var synth3 = new Tone.MonoSynth();
@@ -43,7 +36,6 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     var chorus3 = new Tone.Chorus(depth=0.1, rate=0.66);
     chorus3.output.gain.value = 0.5
 
-    // More synth quality here!
     synth1.output.gain.value = 0.1;
     synth2.output.gain.value = 0.1;
     synth3.output.gain.value = 0.1;
@@ -51,6 +43,22 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
     synth1.connect(chorus1); chorus1.toMaster();
     synth2.connect(delay2); delay2.toMaster();
     synth3.connect(chorus3); chorus3.toMaster();
+
+		return [synth1, synth2, synth3];
+}
+
+coreEchoesApp.controller('echoController', function ($scope, $timeout) {
+    $scope.echoes = testRoute;
+    $scope.showText = "co.re.echo.es";
+
+    $scope.startTimeout = function() {
+        doNextTimeout();
+    }
+		
+		var synths = setUpSynths();
+		var synth1 = synths[0];
+		var synth2 = synths[1];
+		var synth3 = synths[2];
 
     // Initial data
     var tempIndex = 0;
