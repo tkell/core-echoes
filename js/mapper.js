@@ -53,8 +53,8 @@ var mapper = function () {
     }
     return {
       getPitches: getPitches,
-    	getRhythms: getRhythms,
-    	getDurations: getDurations,
-    	getTimeouts: getTimeouts,
+      getRhythms: getRhythms,
+      getDurations: getDurations,
+      getTimeouts: getTimeouts,
     }
 }();
