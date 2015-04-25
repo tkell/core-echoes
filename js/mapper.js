@@ -41,15 +41,15 @@ var mapper = function () {
     }
 
     var getTimeouts = function(ipArray) {
-        var times = [];
+        var time = 0;
         for (var i = 0; i < ipArray.length; i++) {
             var t = 0;
             for (var j = 0; j < ipArray[i].length; j++) {
                 t = t + parseInt(ipArray[i][j]);
             }
-            times[i] = t;
+            time = time + t;
         }
-        return times;   
+        return time;
     }
     return {
       getPitches: getPitches,

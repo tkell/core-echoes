@@ -93,9 +93,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
         var durations = mapper.getDurations(currentIP.slice(0, 2).concat(currentIP[3]));
         noteData[synthIndex].duration = noteData[synthIndex].repetition / 2; 
 
-        var timeoutProb = ipUtils.getProb(currentIP[3]);
-        var timeouts = mapper.getTimeouts(currentIP.slice(0, 3));
-        var nextTimeout = ipUtils.choose(timeoutProb, timeouts) / 2; 
+        var nextTimeout = mapper.getTimeouts(currentIP.slice(0, 3)) / 4;
 
         // console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
 

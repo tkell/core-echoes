@@ -41,6 +41,6 @@ var ipUtils = function() {
     return {
 		    pad: padIPs,
 		    getProb: getProbabilities,
-				choose: choose,
+            choose: choose,
 		};
     }();
