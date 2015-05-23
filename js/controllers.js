@@ -20,7 +20,6 @@ var testRoute = [
     {'ip': '69.163.188.139', 'text': 'ip-69-163-188-139.dreamhost.com 76.147 ms  76.100 ms ip-69-163-188-137.dreamhost.com (69.163.188.137)  76.041 ms'}
 ]
 
-
 function setUpSynths() {
     var synth1 = new Tone.MonoSynth();
     var synth2 = new Tone.MonoSynth();
@@ -58,10 +57,10 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
         doNextTimeout();
     }
 		
-		var synths = setUpSynths();
-		var synth1 = synths[0];
-		var synth2 = synths[1];
-		var synth3 = synths[2];
+    var synths = setUpSynths();
+	var synth1 = synths[0];
+	var synth2 = synths[1];
+	var synth3 = synths[2];
 
     // Initial data
     var tempIndex = 0;
@@ -96,7 +95,6 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout) {
         var nextTimeout = mapper.getTimeouts(currentIP.slice(0, 3)) / 4;
 
         // console.log(currentIP, synthIndex, noteData[synthIndex], nextTimeout)
-
         if (startFlag == true) {
             if (synthIndex == 0) {  
                 $scope.isPlaying = true;
