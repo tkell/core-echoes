@@ -37,9 +37,9 @@ function setUpSynths() {
     var chorus3 = new Tone.Chorus(depth=0.1, rate=0.66);
     chorus3.output.gain.value = 0.1;
 
-    synth1.output.gain.value = 0.1;
-    synth2.output.gain.value = 0.1;
-    synth3.output.gain.value = 0.1;
+    synth1.output.gain.value = 0.05;
+    synth2.output.gain.value = 0.05;
+    synth3.output.gain.value = 0.05;
 
     synth1.connect(chorus1); chorus1.toMaster();
     synth2.connect(delay2); delay2.toMaster();
@@ -55,7 +55,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
 
     // Starts things going
     $scope.startTimeout = function() {
-       $http.get(routeURL)
+        $http.get(routeURL)
         .then(function(res) {
             $scope.echoes = res.data;
             doNextTimeout();
@@ -78,6 +78,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
         ];
 
     var doNextTimeout = function() {
+        console.log("doing another timeout", tempIndex);
         var currentIP = $scope.echoes[tempIndex].ip;
         $scope.showText = $scope.echoes[tempIndex].line_text;
         $scope.showDetails = currentIP;
@@ -133,7 +134,16 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
         if (tempIndex < $scope.echoes.length) {
             $timeout(doNextTimeout, nextTimeout * 1000);
         } else {
-            $timeout(function() {Tone.Transport.stop()}, nextTimeout * 1000);
+            $timeout(function() {
+                $http.get(routeURL)
+                .then(function(res) {
+                    console.log("getting a new trace");
+                    console.log(res.data);
+                    $scope.echoes = res.data;
+                    tempIndex = 0;
+                    doNextTimeout();
+                });
+            }, nextTimeout * 1000);
         }
     }
  });
