@@ -1,23 +1,23 @@
 var coreEchoesApp = angular.module('coreEchoesApp', []);
 
 var testRoute = [
-    {'ip': '10.22.12.1', 'text': '10.22.12.1 19.811 ms  25.416 ms  28.152 ms'}, 
-    {'ip': '74.201.254.125', 'text': 'border2.ge4-28.spotify-3.nyj001.pnap.net 28.161 ms  28.119 ms  28.123 ms'}, 
-    {'ip': '216.52.95.88', 'text':  'core1.te6-2-bbnet2.nym007.pnap.net 64.714 ms  64.668 ms  64.676 ms'},
-    {'ip': '207.239.87.93', 'text': '207.239.87.93 44.890 ms  28.026 ms  50.806 ms'}, 
-    {'ip': '216.156.0.17', 'text': 'vb1010.rar3.nyc-ny.us.xo.net  64.591 ms  64.578 ms  64.562 ms'}, 
-    {'ip': '207.88.14.178', 'text': '207.88.14.178.ptr.us.xo.net 27.895 ms  12.237 ms  3.546 ms'},
-    {'ip': '154.54.11.189', 'text': 'te0-0-0-4.ccr21.jfk05.atlas.cogentco.com   11.343 ms  11.294 ms  11.239 ms'}, 
-    {'ip': '154.54.31.9', 'text': 'be2060.ccr41.jfk02.atlas.cogentco.com 11.188 ms  11.129 ms  5.606 ms'}, 
-    {'ip': '154.54.80.162', 'text': 'be2518.mpd21.dca01.atlas.cogentco.com 11.150 ms be2148.ccr21.dca01.atlas.cogentco.com (154.54.31.117)  11.126 ms be2518.mpd21.dca01.atlas.cogentco.com (154.54.80.162)  11.059 ms'},
-    {'ip': '154.54.31.97', 'text': 'be2169.ccr42.atl01.atlas.cogentco.com 27.448 ms be2170.ccr41.atl01.atlas.cogentco.com (154.54.31.105)  27.426 ms be2169.ccr42.atl01.atlas.cogentco.com (154.54.31.97)  27.341 ms'}, 
-    {'ip': '154.54.29.18', 'text': 'be2172.ccr21.iah01.atlas.cogentco.com 41.541 ms be2173.ccr22.iah01.atlas.cogentco.com (154.54.29.118)  37.263 ms be2172.ccr21.iah01.atlas.cogentco.com (154.54.29.18)  45.683 ms'}, 
-    {'ip': '154.54.5.66', 'text': 'be2065.ccr21.lax01.atlas.cogentco.com 73.413 ms be2066.ccr22.lax01.atlas.cogentco.com (154.54.7.54)  71.180 ms  79.183 ms'},
-    {'ip': '154.54.28.146', 'text': 'te8-1.mag01.lax01.atlas.cogentco.com 75.321 ms te7-1.mag02.lax01.atlas.cogentco.com (154.54.47.166)  72.894 ms  72.796 ms'}, 
-    {'ip': '154.24.22.122', 'text': 'te0-0-2-2.nr11.b001202-4.lax01.atlas.cogentco.com 72.832 ms  72.830 ms te0-0-2-1.nr11.b001202-4.lax01.atlas.cogentco.com (154.24.22.126)  72.780 ms'}, 
-    {'ip': '38.122.20.218', 'text': '38.122.20.218 72.709 ms  76.311 ms  76.211 ms'},
-    {'ip': '69.163.188.170', 'text': 'ip-69-163-188-170.dreamhost.com 76.194 ms ip-69-163-188-168.dreamhost.com (69.163.188.168)  73.629 ms ip-69-163-188-170.dreamhost.com (69.163.188.170)  76.145 ms'}, 
-    {'ip': '69.163.188.139', 'text': 'ip-69-163-188-139.dreamhost.com 76.147 ms  76.100 ms ip-69-163-188-137.dreamhost.com (69.163.188.137)  76.041 ms'}
+    {'ip': '10.22.12.1', 'line_text': '10.22.12.1 19.811 ms  25.416 ms  28.152 ms'}, 
+    {'ip': '74.201.254.125', 'line_text': 'border2.ge4-28.spotify-3.nyj001.pnap.net 28.161 ms  28.119 ms  28.123 ms'}, 
+    {'ip': '216.52.95.88', 'line_text':  'core1.te6-2-bbnet2.nym007.pnap.net 64.714 ms  64.668 ms  64.676 ms'},
+    {'ip': '207.239.87.93', 'line_text': '207.239.87.93 44.890 ms  28.026 ms  50.806 ms'}, 
+    {'ip': '216.156.0.17', 'line_text': 'vb1010.rar3.nyc-ny.us.xo.net  64.591 ms  64.578 ms  64.562 ms'}, 
+    {'ip': '207.88.14.178', 'line_text': '207.88.14.178.ptr.us.xo.net 27.895 ms  12.237 ms  3.546 ms'},
+    {'ip': '154.54.11.189', 'line_text': 'te0-0-0-4.ccr21.jfk05.atlas.cogentco.com   11.343 ms  11.294 ms  11.239 ms'}, 
+    {'ip': '154.54.31.9', 'line_text': 'be2060.ccr41.jfk02.atlas.cogentco.com 11.188 ms  11.129 ms  5.606 ms'}, 
+    {'ip': '154.54.80.162', 'line_text': 'be2518.mpd21.dca01.atlas.cogentco.com 11.150 ms be2148.ccr21.dca01.atlas.cogentco.com (154.54.31.117)  11.126 ms be2518.mpd21.dca01.atlas.cogentco.com (154.54.80.162)  11.059 ms'},
+    {'ip': '154.54.31.97', 'line_text': 'be2169.ccr42.atl01.atlas.cogentco.com 27.448 ms be2170.ccr41.atl01.atlas.cogentco.com (154.54.31.105)  27.426 ms be2169.ccr42.atl01.atlas.cogentco.com (154.54.31.97)  27.341 ms'}, 
+    {'ip': '154.54.29.18', 'line_text': 'be2172.ccr21.iah01.atlas.cogentco.com 41.541 ms be2173.ccr22.iah01.atlas.cogentco.com (154.54.29.118)  37.263 ms be2172.ccr21.iah01.atlas.cogentco.com (154.54.29.18)  45.683 ms'}, 
+    {'ip': '154.54.5.66', 'line_text': 'be2065.ccr21.lax01.atlas.cogentco.com 73.413 ms be2066.ccr22.lax01.atlas.cogentco.com (154.54.7.54)  71.180 ms  79.183 ms'},
+    {'ip': '154.54.28.146', 'line_text': 'te8-1.mag01.lax01.atlas.cogentco.com 75.321 ms te7-1.mag02.lax01.atlas.cogentco.com (154.54.47.166)  72.894 ms  72.796 ms'}, 
+    {'ip': '154.24.22.122', 'line_text': 'te0-0-2-2.nr11.b001202-4.lax01.atlas.cogentco.com 72.832 ms  72.830 ms te0-0-2-1.nr11.b001202-4.lax01.atlas.cogentco.com (154.24.22.126)  72.780 ms'}, 
+    {'ip': '38.122.20.218', 'line_text': '38.122.20.218 72.709 ms  76.311 ms  76.211 ms'},
+    {'ip': '69.163.188.170', 'line_text': 'ip-69-163-188-170.dreamhost.com 76.194 ms ip-69-163-188-168.dreamhost.com (69.163.188.168)  73.629 ms ip-69-163-188-170.dreamhost.com (69.163.188.170)  76.145 ms'}, 
+    {'ip': '69.163.188.139', 'line_text': 'ip-69-163-188-139.dreamhost.com 76.147 ms  76.100 ms ip-69-163-188-137.dreamhost.com (69.163.188.137)  76.041 ms'}
 ]
 
 function setUpSynths() {
@@ -50,14 +50,18 @@ function setUpSynths() {
 
 
 coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
-    $scope.echoes = testRoute;
+    var routeURL = 'https://core-echoes.herokuapp.com/route'
     $scope.showText = "co.re.echo.es";
 
+    // Starts things going
     $scope.startTimeout = function() {
-        doNextTimeout();
+       $http.get(routeURL)
+        .then(function(res) {
+            $scope.echoes = res.data;
+            doNextTimeout();
+        });
     }
-    console.log($http);;
-		
+
     var synths = setUpSynths();
 	var synth1 = synths[0];
 	var synth2 = synths[1];
@@ -75,7 +79,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
 
     var doNextTimeout = function() {
         var currentIP = $scope.echoes[tempIndex].ip;
-        $scope.showText = $scope.echoes[tempIndex].text;
+        $scope.showText = $scope.echoes[tempIndex].line_text;
         $scope.showDetails = currentIP;
         var synthIndex = tempIndex % 3;
         currentIP = currentIP.split('.');
