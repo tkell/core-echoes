@@ -49,13 +49,14 @@ function setUpSynths() {
 }
 
 
-coreEchoesApp.controller('echoController', function ($scope, $timeout) {
+coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
     $scope.echoes = testRoute;
     $scope.showText = "co.re.echo.es";
 
     $scope.startTimeout = function() {
         doNextTimeout();
     }
+    console.log($http);;
 		
     var synths = setUpSynths();
 	var synth1 = synths[0];
