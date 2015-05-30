@@ -1,3 +1,3 @@
-CORE ECHOES
+co.or.echo.es:  tracerouting the internet and turning it into music:  http://tide-pool.ca/core-echoes/
 
-First, the angular side of things.  
+This is the Angular / Web Audio client.
