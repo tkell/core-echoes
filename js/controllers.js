@@ -58,7 +58,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
         ];
 
     var doNextTimeout = function() {
-        console.log("doing another timeout", tempIndex);
+        // console.log("doing another timeout", tempIndex);
         if ($scope.echoes.length != 0) {
             var currentIP = $scope.echoes[tempIndex].ip;
             $scope.showText = $scope.echoes[tempIndex].line_text;
@@ -77,7 +77,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
                 if (synthIndex == 0) {
                     $scope.isPlaying = true;
                     synth1.volume.value = -6;
-                    Tone.Transport.schedule(function(time) {
+                    Tone.Transport.scheduleRepeat(function(time) {
                         synth1.triggerAttackRelease(noteData[0].note, noteData[0].duration, time);
                     }, noteData[0].repetition);
                     Tone.Transport.start();
@@ -86,7 +86,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
                 if (synthIndex == 1) {
                     synth1.volume.value = -12;
                     synth2.volume.value = -12;
-                    Tone.Transport.schedule(function(time) {
+                    Tone.Transport.scheduleRepeat(function(time) {
                         synth2.triggerAttackRelease(noteData[1].note, noteData[1].duration, time);
                     }, noteData[1].repetition);
                 }
@@ -96,7 +96,7 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
                     synth1.volume.value = -18;
                     synth2.volume.value = -18;
                     synth3.volume.value = -18;
-                    Tone.Transport.schedule(function(time) {
+                    Tone.Transport.scheduleRepeat(function(time) {
                         synth3.triggerAttackRelease(noteData[2].note, noteData[2].duration, time);
                     }, noteData[2].repetition);
                 }
@@ -110,8 +110,8 @@ coreEchoesApp.controller('echoController', function ($scope, $timeout, $http) {
             $timeout(function() {
                 $http.get(routeURL)
                 .then(function(res) {
-                    console.log("getting a new trace");
-                    console.log(res.data);
+                    // console.log("getting a new trace");
+                    // console.log(res.data);
                     $scope.echoes = res.data;
                     tempIndex = 0;
                     doNextTimeout();
